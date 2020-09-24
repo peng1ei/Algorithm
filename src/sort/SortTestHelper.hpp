@@ -118,6 +118,17 @@ namespace SortTestHelper {
 
         return data;
     }
+
+    template <typename T>
+    std::vector<T> GenerateOrderedArray(size_t n) {
+        std::vector<T> data;
+        data.reserve(n);
+        for (size_t i = 0; i < n; i++) {
+            data.push_back(i);
+        }
+
+        return data;
+    }
 }
 
 #endif //ALGORITHM_SORTTESTHELPER_HPP

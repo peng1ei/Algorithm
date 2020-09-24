@@ -12,6 +12,10 @@ int main() {
     Test::SelectionSort();
 #endif
 
+#ifdef TEST_BUBBLE_SORT
+    Test::BubbleSort();
+#endif
+
     return 0;
 }
 
