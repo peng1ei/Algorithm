@@ -1,9 +1,8 @@
 //
 // Created by pl on 2020/9/23.
 //
-
-#ifndef ALGORITHM_TESTSORTHELPER_HPP
-#define ALGORITHM_TESTSORTHELPER_HPP
+#ifndef ALGORITHM_SORTTESTHELPER_HPP
+#define ALGORITHM_SORTTESTHELPER_HPP
 #include "PrintSTL.hpp"
 #include "MeasureAlgoTime.hpp"
 #include <functional>
@@ -12,7 +11,7 @@
 #include <cassert>
 #include <random>
 
-namespace TestSortHelper {
+namespace SortTestHelper {
 
     template<typename T>
     using SortFunc = std::function<void(std::vector<T>&)>;
@@ -40,14 +39,17 @@ namespace TestSortHelper {
         if (debug) {
             PrintVectorElems(data, title + "[Sort After]");
         }
-        std::cout << title << "[Running Time]: " << std::setiosflags(std::ios::fixed) << timeSecond << " s" << std::endl;
         std::cout << title << "[Successful]: " << (IsSorted(data) ? "true" : "false") << std::endl;
+        std::cout << title << "[Running Time]: " << std::setiosflags(std::ios::fixed) << timeSecond << " s\n" << std::endl;
     }
 
     template <typename T>
     std::vector<T> GenerateRangeRandomArray(size_t n, T min, T max) {
         static_assert(std::is_arithmetic<T>::value, "The element type is not arithmetic.");
+        std::vector<T> randomData;
+        randomData.reserve(n);
 
+        // C++11 产生随机数的方式（分3步）
         // 1. 定义 random_device 对象
         std::random_device rd;
 
@@ -60,26 +62,26 @@ namespace TestSortHelper {
         // 3. 选择要的分布，创建分布对象，将引擎传入作为种子，让分布对象输出随机数
         // std::uniform_int_distribution -- 整数均匀分布，范围为 [min,max]
         // uniform_real_distribution -- 浮点数均匀分布, 范围为 [min,max)
-
-        std::vector<T> randomData;
-        randomData.reserve(n);
-
         if (std::is_integral<T>::value) {
-            std::uniform_int_distribution<T> dis(min,max); // 生成 [min, max] 之间的随机数
+            std::uniform_int_distribution<T> dis(min,max); // 生成 [min, max] 之间的整数随机数
             for(int i=0; i<n; i++){
                 randomData.push_back(dis(gen));
             }
 
         } else if (std::is_floating_point<T>::value) {
             // TODO
+//            std::uniform_real_distribution<T> dis(min,max); // 生成 [min, max）之间的小数随机数
+//            for(int i=0; i<n; i++){
+//                randomData.push_back(dis(gen));
+//            }
         }
 
         return randomData;
     }
 
     // 产生一个近乎有序的数组的基本思想：
-    // 1. 先生成一个有序的数组
-    // 2. 然后产生需要交换值的两个位置的随机数，交换两个随机位置的值（指定需要交换的次数）
+    // 1. 先生成一个有序的数组，然后随机交换任意两个位置的元素，交换的次数越多，整个的有序数组就变得越无序
+    //    使用随机数来产生两个需要互相交换的元素的位置
     template <typename T>
     std::vector<T> GenerateNearlyOrderedArray(size_t n, size_t swapTimes) {
         static_assert(std::is_arithmetic<T>::value, "The element type is not arithmetic.");
@@ -118,4 +120,4 @@ namespace TestSortHelper {
     }
 }
 
-#endif //ALGORITHM_TESTSORTHELPER_HPP
+#endif //ALGORITHM_SORTTESTHELPER_HPP

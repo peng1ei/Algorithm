@@ -4,7 +4,6 @@
 
 #ifndef TOOLS_MEASUREALGOTIME_HPP
 #define TOOLS_MEASUREALGOTIME_HPP
-
 #include <chrono>
 #include <type_traits>
 #include <iostream>

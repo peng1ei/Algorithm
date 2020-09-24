@@ -73,6 +73,7 @@ namespace stlp {
         case SplitType::SPACE_COMMA: return " ,";
         case SplitType::COMMA_SPACE: return ", ";
         }
+        return " ";
     }
 
     std::string SplitTypeName2String(SplitType st) {
@@ -82,6 +83,7 @@ namespace stlp {
         case SplitType::SPACE_COMMA: return "SPACE_COMMA";
         case SplitType::COMMA_SPACE: return "COMMA_SPACE";
         }
+        return "UNKNOWN";
     }
 
     /**********************************************************

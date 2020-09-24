@@ -1,20 +1,58 @@
 //
 // Created by pl on 2020/9/23.
 //
-
+/** 选择排序（Selection Sort）
+ * 基本思想：
+ *      每一次都选择剩余未排序中最小元素与剩余未排序的第一个元素进行交换
+ * 算法步骤（待排序元素个数为 n）：
+ *      1. 在 [0, n-1] 范围内找出最小元素所在的位置，然后将该位置的元素与第0个元素进行交换
+ *          1.1 初始化最小元素位置为第一个未排序的位置，即 minPos = 0
+ *          1.2 遍历 [1, n-1] 内的元素，与 minPos 位置的元素进行比较
+ *              1.2.1 如果当前元素小于minPos位置的元素，则更新minPos为当前元素的位置，
+ *                    继续遍历下一个元素，返回到 1.2.1
+ *              1.2.2 如果当前元素大于等于minPos位置的元素，则继续遍历后续的元素，返回到 1.2.1
+ *      2. 在 [1, n-1] 范围内找出最小元素所在的位置，然后将该位置的元素与第1个元素进行交换
+ *      3. 在 [2, n-1] 范围内找出最小元素所在的位置，然后将该位置的元素与第2个元素进行交换
+ *      ......
+ *    n-2. 在 [n-3, n-1] 范围内找出最小元素所在的位置，然后将该位置的元素与第n-3个元素进行交
+ *    n-1. 在 [n-2, n-1] 范围内找出最小元素所在的位置，然后将该位置的元素与第n-2个元素进行交换
+ *      n. 在 [n-1, n-1] 范围内找出最小元素所在的位置，然后将该位置的元素与第n-1个元素进行交换
+ *
+ *      注意：在每一次寻找最小元素所在的位置时，都将最小元素所在位置初始化为当前未排序的第一个位置
+ * 时间复杂度：
+ *      O(N^2)
+ * 算法特点：
+ *      1. 思路清晰，代码简单
+ *      2. 对于待排序的数据有序程序不敏感，即待排序的数据无论有序与否，或混乱与否，其时间复杂度基本
+ *         都是O(N^2)，不受数据混乱程度影响，但是受数据规模影响
+ * 适用场景：
+ *      1. 数据规模不大的情况。
+ *      2. 使用汇编这种低级语言编写排序算法时，由于选择排序的简单性，使用汇编编写也不会太复杂，
+ *         当然数据规模最好也不要太大。
+ * 算法优化：
+ *      由于在未排序的元素中寻找最小元素时，需要全部遍历一遍未排序的元素才能找到最小的元素，
+ *      因此没有中途可提前结束遍历的可能，因此对于选择排序算法来说，暂时没有优化的空间
+ *
+ */
 #ifndef ALGORITHM_SELECTIONSORT_HPP
 #define ALGORITHM_SELECTIONSORT_HPP
 #include <vector>
 
-template <typename T>
-void SelectionSort(std::vector<T> &data) {
-    for (size_t i = 0; i < data.size(); ++i) {
-        size_t minIndex = i;
-        for (size_t j = i; j < data.size(); ++j) {
-            if (data[j] < data[minIndex]) minIndex = j;
+namespace Algo {
+    namespace Sort {
+
+        template <typename T>
+        void SelectionSort(std::vector<T> &data) {
+            for (size_t i = 0; i < data.size(); ++i) {
+                size_t minIndex = i;
+                for (size_t j = i+1; j < data.size(); ++j) {
+                    if (data[j] < data[minIndex]) minIndex = j;
+                }
+                std::swap(data[i], data[minIndex]);
+            }
         }
-        std::swap(data[i], data[minIndex]);
-    }
-}
+
+    } // Sort
+} // namespace Algo
 
 #endif //ALGORITHM_SELECTIONSORT_HPP
